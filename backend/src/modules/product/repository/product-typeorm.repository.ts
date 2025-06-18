@@ -3,8 +3,9 @@ import { CreateProductDto } from '../http/dto/create-product.dto';
 import { ProductEntity } from '../product.entity';
 import { IProductRepository } from './IProduct.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { UpdateProductDto } from '../http/dto/update-product.dto';
+import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -26,8 +27,11 @@ export class ProductRepository implements IProductRepository {
     this.productRepository.save(transaction);
   }
 
-  async all({ page, limit }: { page: number; limit: number }) {
+  async all({ page, limit, search }: PaginationQueryDto) {
+    const where = search ? { name: ILike(`%${search}%`) } : {};
+
     const [data, total] = await this.productRepository.findAndCount({
+      where,
       skip: (page - 1) * limit,
       take: limit,
     });

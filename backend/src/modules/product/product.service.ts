@@ -4,6 +4,7 @@ import { ProductEntity } from './product.entity';
 import { IProductRepository } from './repository/IProduct.repository';
 import { UpdateProductDto } from './http/dto/update-product.dto';
 import { Cache } from 'cache-manager';
+import { PaginationQueryDto } from '../common/pagination-query.dto';
 
 export class ProductService {
   constructor(
@@ -16,11 +17,8 @@ export class ProductService {
     this.cacheManager.clear();
   }
 
-  async all(query: { page?: number; limit?: number }) {
-    const page = query.page ?? 1;
-    const limit = query.limit ?? 10;
-
-    return this.productRepository.all({ page, limit });
+  async all({ limit, page, search }: PaginationQueryDto) {
+    return this.productRepository.all({ page, limit, search });
   }
 
   async findOne({ id }: Pick<ProductEntity, 'id'>) {

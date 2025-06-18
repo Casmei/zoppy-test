@@ -7,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import {
@@ -21,6 +20,7 @@ import { ProductService } from '../product.service';
 import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 import { ResourceIdParamDto } from 'src/modules/common/resource-id-param.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { DefaultPaginationQuery } from 'src/modules/common/default-pagination.query';
 
 @ApiTags('Produtos')
 @Controller('products')
@@ -36,8 +36,14 @@ export class ProductController {
 
   @Get()
   @AllProductsDocumentation()
-  async all(@Query() query: PaginationQueryDto) {
-    return this.productService.all(query);
+  async all(
+    @DefaultPaginationQuery({ hasSearch: true }) query: PaginationQueryDto,
+  ) {
+    return this.productService.all({
+      limit: Number(query.limit),
+      page: Number(query.page),
+      search: query.search,
+    });
   }
 
   @Get(':id')

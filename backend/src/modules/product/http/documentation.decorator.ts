@@ -9,6 +9,7 @@ import {
 import { CreateProductDto } from './dto/create-product.dto';
 import { PaginatedProductResponse } from './response/all-products.response';
 import { ProductCreatedResponse } from './response/product-created.response';
+import { DefaultPaginationDoc } from 'src/modules/common/default-pagination-doc.decorator';
 
 export function CreateProductDocumentation() {
   return applyDecorators(
@@ -31,8 +32,7 @@ export function CreateProductDocumentation() {
 export function AllProductsDocumentation() {
   return applyDecorators(
     ApiOperation({ summary: 'Lista todos os produtos com paginação' }),
-    ApiQuery({ name: 'page', required: false, type: Number, example: 1 }),
-    ApiQuery({ name: 'limit', required: false, type: Number, example: 10 }),
+    DefaultPaginationDoc({ hasSearch: true }),
     ApiResponse({
       status: 200,
       description: 'Lista de produtos',
