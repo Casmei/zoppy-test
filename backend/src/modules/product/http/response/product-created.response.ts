@@ -15,7 +15,7 @@ export class ProductCreatedResponse {
 
   @ApiProperty({
     description: 'The price of the procuct',
-    example: '5.00',
+    example: 5000,
     type: 'integer',
   })
   price: string;

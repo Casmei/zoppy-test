@@ -9,7 +9,7 @@ export class ProductEntity {
   @Column()
   name: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal')
   price: number;
 
   @OneToMany(() => OrderItemEntity, (item) => item.product)
