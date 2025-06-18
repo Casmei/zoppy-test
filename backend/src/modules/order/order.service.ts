@@ -13,9 +13,11 @@ export class OrderService {
     private cacheManager: Cache,
   ) {}
 
-  async create(data: CreateOrderDto) {
+  async create({ customerName, items }: CreateOrderDto) {
+    let totalOrderValue = 0;
+
     const orderItems = await Promise.all(
-      data.items.map(async ({ productId, quantity }) => {
+      items.map(async ({ productId, quantity }) => {
         const product = await this.productRepository.findOneById({
           id: productId,
         });
@@ -26,16 +28,21 @@ export class OrderService {
           );
         }
 
+        const total = product.price * quantity;
+        totalOrderValue += total;
         return {
           product,
           quantity,
+          total,
           unitPrice: product.price,
-          subtotal: product.price * quantity,
         } as Partial<OrderItemEntity>;
       }),
     );
 
-    const order = await this.orderRepository.createOrder(data);
+    const order = await this.orderRepository.createOrder({
+      customerName,
+      total: totalOrderValue,
+    });
     this.orderRepository.createOrderItems(order.id, orderItems);
 
     this.cacheManager.clear();

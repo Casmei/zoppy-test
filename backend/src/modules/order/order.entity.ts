@@ -30,6 +30,12 @@ export class OrderEntity {
   })
   status: OrderStatus;
 
+  @Column({
+    type: 'float',
+    nullable: false,
+  })
+  total: number;
+
   @Column({ type: 'timestamp', nullable: true })
   paidAt: Date;
 

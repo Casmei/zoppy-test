@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from '../order.entity';
 import { Repository } from 'typeorm';
 import { OrderItemEntity } from '../order-item.entity';
-import { CreateOrderDto } from '../http/dto/create-order.dto';
 import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 
 export class OrderRepository implements IOrderRepository {
@@ -25,11 +24,8 @@ export class OrderRepository implements IOrderRepository {
     await this.orderItemRepository.save(orderItems);
   }
 
-  async createOrder(data: CreateOrderDto) {
-    const order = this.orderRepository.create({
-      customerName: data.customerName,
-    });
-
+  async createOrder(data: Partial<OrderEntity>) {
+    const order = this.orderRepository.create(data);
     await this.orderRepository.save(order);
 
     return order;

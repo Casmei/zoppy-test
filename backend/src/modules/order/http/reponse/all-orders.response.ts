@@ -1,30 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderStatus } from '../../order.entity';
 import { ProductCreatedResponse } from 'src/modules/product/http/response/product-created.response';
-import { Expose } from 'class-transformer';
 
 export class OrderItemResponse {
   @ApiProperty({ example: 3 })
   id: number;
 
+  @ApiProperty({ example: 15000, type: 'integer' })
+  total: number;
+
   @ApiProperty({ example: 3 })
   quantity: number;
 
-  @ApiProperty({ example: '7.20' })
-  @Expose()
-  get subtotal(): string {
-    return (this.quantity * Number(this.unitPrice)).toFixed(2);
-  }
-
-  @ApiProperty({ example: 5, type: 'integer' })
-  unitPrice: string;
+  @ApiProperty({ example: 5000, type: 'integer' })
+  unitPrice: number;
 
   @ApiProperty({ type: ProductCreatedResponse })
   product: ProductCreatedResponse;
 }
 
 export class OrderCreatedResponse {
-  @ApiProperty({ example: 101 })
+  @ApiProperty({ example: 1 })
   id: number;
 
   @ApiProperty({ example: 'João da Silva' })

@@ -1,8 +1,8 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { DefaultPaginationDoc } from 'src/modules/common/default-pagination-doc.decorator';
 import { PaginatedOrderResponse } from './reponse/all-orders.response';
+import { CreateOrderDto } from './dto/create-order.dto';
 
 export function CreateOrderDocumentation() {
   return applyDecorators(

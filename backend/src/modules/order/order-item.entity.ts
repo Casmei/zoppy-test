@@ -13,10 +13,19 @@ export class OrderItemEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({
+    type: 'float',
+    nullable: false,
+  })
+  total: number;
+
   @Column()
   quantity: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column({
+    type: 'float',
+    nullable: false,
+  })
   unitPrice: number;
 
   @ManyToOne(() => OrderEntity, (order) => order.items, { onDelete: 'CASCADE' })
