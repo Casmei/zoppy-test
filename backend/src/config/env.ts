@@ -25,4 +25,7 @@ export const env = cleanEnv(process.env, {
     default: 3000,
     desc: 'Porta onde a aplicação Node.js será exposta',
   }),
+  REDIS_URL: str({
+    default: 'redis://localhost:6379',
+  }),
 });

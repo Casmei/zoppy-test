@@ -3,12 +3,17 @@ import { CreateProductDto } from './http/dto/create-product.dto';
 import { ProductEntity } from './product.entity';
 import { IProductRepository } from './repository/IProduct.repository';
 import { UpdateProductDto } from './http/dto/update-product.dto';
+import { Cache } from 'cache-manager';
 
 export class ProductService {
-  constructor(private productRepository: IProductRepository) {}
+  constructor(
+    private productRepository: IProductRepository,
+    private cacheManager: Cache,
+  ) {}
 
   async create(data: CreateProductDto) {
     this.productRepository.create(data);
+    this.cacheManager.clear();
   }
 
   async all(query: { page?: number; limit?: number }) {
@@ -36,5 +41,6 @@ export class ProductService {
     }
 
     this.productRepository.update(product, data);
+    this.cacheManager.clear();
   }
 }

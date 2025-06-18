@@ -8,6 +8,8 @@ import {
 } from './repository/IProduct.repository';
 import { ProductRepository } from './repository/product-typeorm.repository';
 import { ProductService } from './product.service';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 const repositories: Provider[] = [
   {
@@ -19,9 +21,9 @@ const repositories: Provider[] = [
 const services: Provider[] = [
   {
     provide: ProductService,
-    useFactory: (repository: IProductRepository) =>
-      new ProductService(repository),
-    inject: [PRODUCT_REPOSITORY],
+    useFactory: (repository: IProductRepository, cacheManager: Cache) =>
+      new ProductService(repository, cacheManager),
+    inject: [PRODUCT_REPOSITORY, CACHE_MANAGER],
   },
 ];
 @Module({
