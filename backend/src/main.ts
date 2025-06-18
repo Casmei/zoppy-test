@@ -6,7 +6,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Zoppy Api Documentation')
@@ -14,6 +13,8 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, documentFactory);
+
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(env.APP_PORT);
 }

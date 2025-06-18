@@ -1,7 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
-import { ProductCreatedResponse } from './response/product-created.response';
 
 export function CreateProductDocumentation() {
   return applyDecorators(
@@ -13,7 +12,6 @@ export function CreateProductDocumentation() {
     ApiResponse({
       status: 201,
       description: 'Produto criado com sucesso',
-      type: ProductCreatedResponse,
     }),
     ApiResponse({
       status: 400,
