@@ -1,7 +1,14 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiBody, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiQuery,
+  ApiParam,
+} from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { PaginatedProductResponse } from './response/all-products.response';
+import { ProductCreatedResponse } from './response/product-created.response';
 
 export function CreateProductDocumentation() {
   return applyDecorators(
@@ -34,6 +41,32 @@ export function AllProductsDocumentation() {
     ApiResponse({
       status: 400,
       description: 'Requisição inválida',
+    }),
+  );
+}
+
+export function FindOneProductDocumentation() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Busca um produto pelo ID' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID do produto a ser buscado',
+      type: Number,
+      example: 1,
+    }),
+    ApiResponse({
+      status: 200,
+      description: 'Produto encontrado',
+      type: ProductCreatedResponse,
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Produto não encontrado',
+    }),
+    ApiResponse({
+      status: 400,
+      description: 'ID inválido',
     }),
   );
 }

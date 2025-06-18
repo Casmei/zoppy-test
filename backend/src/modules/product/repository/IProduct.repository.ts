@@ -11,4 +11,5 @@ export interface IProductRepository {
     page: number;
     limit: number;
   }>;
+  findOneById({ id }: Pick<ProductEntity, 'id'>): Promise<ProductEntity | null>;
 }

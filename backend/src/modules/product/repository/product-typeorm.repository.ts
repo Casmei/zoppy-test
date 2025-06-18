@@ -12,6 +12,12 @@ export class ProductRepository implements IProductRepository {
     private productRepository: Repository<ProductEntity>,
   ) {}
 
+  findOneById({
+    id,
+  }: Pick<ProductEntity, 'id'>): Promise<ProductEntity | null> {
+    return this.productRepository.findOneBy({ id });
+  }
+
   create(data: CreateProductDto): void {
     const transaction = this.productRepository.create(data);
     this.productRepository.save(transaction);

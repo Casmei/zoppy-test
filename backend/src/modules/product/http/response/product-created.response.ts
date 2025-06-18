@@ -3,9 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class ProductCreatedResponse {
   @ApiProperty({
     description: 'The unique identifier of the product',
-    example: '6c76be07-b690-4903-93c8-395c30ddb69a',
+    example: 1,
   })
-  id: string;
+  id: number;
 
   @ApiProperty({
     description: 'The name of the product',
@@ -15,7 +15,8 @@ export class ProductCreatedResponse {
 
   @ApiProperty({
     description: 'The price of the procuct',
-    example: 5,
+    example: '5.00',
+    type: 'integer',
   })
-  price: number;
+  price: string;
 }

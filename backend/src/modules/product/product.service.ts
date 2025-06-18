@@ -1,4 +1,6 @@
+import { NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './http/dto/create-product.dto';
+import { ProductEntity } from './product.entity';
 import { IProductRepository } from './repository/IProduct.repository';
 
 export class ProductService {
@@ -13,5 +15,15 @@ export class ProductService {
     const limit = query.limit ?? 10;
 
     return this.productRepository.all({ page, limit });
+  }
+
+  async findOne({ id }: Pick<ProductEntity, 'id'>) {
+    const product = await this.productRepository.findOneById({ id });
+
+    if (!product) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return product;
   }
 }
