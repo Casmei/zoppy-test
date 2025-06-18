@@ -1,11 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import {
-  ApiOperation,
-  ApiResponse,
-  ApiBody,
-  ApiQuery,
-  ApiParam,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { PaginatedProductResponse } from './response/all-products.response';
 import { ProductCreatedResponse } from './response/product-created.response';
