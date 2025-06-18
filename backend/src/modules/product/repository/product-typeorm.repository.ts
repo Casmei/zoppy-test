@@ -16,4 +16,20 @@ export class ProductRepository implements IProductRepository {
     const transaction = this.productRepository.create(data);
     this.productRepository.save(transaction);
   }
+
+  async all({ page, limit }: { page: number; limit: number }) {
+    const [data, total] = await this.productRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    console.log(data, total, page, limit);
+
+    return {
+      data,
+      total,
+      page: Number(page),
+      limit: Number(limit),
+    };
+  }
 }

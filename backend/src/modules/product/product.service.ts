@@ -7,4 +7,11 @@ export class ProductService {
   async create(data: CreateProductDto) {
     this.productRepository.create(data);
   }
+
+  async all(query: { page?: number; limit?: number }) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 10;
+
+    return this.productRepository.all({ page, limit });
+  }
 }
