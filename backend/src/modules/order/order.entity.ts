@@ -8,6 +8,13 @@ import {
 } from 'typeorm';
 import { OrderItemEntity } from './order-item.entity';
 
+export enum OrderStatus {
+  PENDING = 'pending',
+  PAID = 'paid',
+  SHIPPED = 'shipped',
+  CANCELED = 'canceled',
+}
+
 @Entity('orders')
 export class OrderEntity {
   @PrimaryGeneratedColumn()
@@ -16,8 +23,21 @@ export class OrderEntity {
   @Column()
   customerName: string;
 
-  @Column({ default: 'pending' })
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
+  status: OrderStatus;
+
+  @Column({ type: 'timestamp', nullable: true })
+  paidAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  shippedAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  canceledAt: Date;
 
   @CreateDateColumn()
   createdAt: Date;

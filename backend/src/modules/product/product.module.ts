@@ -28,6 +28,7 @@ const services: Provider[] = [
 ];
 @Module({
   imports: [TypeOrmModule.forFeature([ProductEntity])],
+  exports: [PRODUCT_REPOSITORY],
   controllers: [ProductController],
   providers: [...repositories, ...services],
 })
