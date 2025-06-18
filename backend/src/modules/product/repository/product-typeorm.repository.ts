@@ -4,6 +4,7 @@ import { ProductEntity } from '../product.entity';
 import { IProductRepository } from './IProduct.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateProductDto } from '../http/dto/update-product.dto';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -12,13 +13,15 @@ export class ProductRepository implements IProductRepository {
     private productRepository: Repository<ProductEntity>,
   ) {}
 
-  findOneById({
-    id,
-  }: Pick<ProductEntity, 'id'>): Promise<ProductEntity | null> {
+  async update({ id }: Pick<ProductEntity, 'id'>, data: UpdateProductDto) {
+    await this.productRepository.update({ id }, data);
+  }
+
+  findOneById({ id }: Pick<ProductEntity, 'id'>) {
     return this.productRepository.findOneBy({ id });
   }
 
-  create(data: CreateProductDto): void {
+  create(data: CreateProductDto) {
     const transaction = this.productRepository.create(data);
     this.productRepository.save(transaction);
   }
@@ -28,8 +31,6 @@ export class ProductRepository implements IProductRepository {
       skip: (page - 1) * limit,
       take: limit,
     });
-
-    console.log(data, total, page, limit);
 
     return {
       data,

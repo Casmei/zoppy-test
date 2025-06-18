@@ -70,3 +70,28 @@ export function FindOneProductDocumentation() {
     }),
   );
 }
+
+export function UpdateProductDocumentation() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Atualiza um produto existente pelo ID' }),
+    ApiParam({
+      name: 'id',
+      required: true,
+      description: 'ID do produto a ser atualizado',
+      type: Number,
+      example: 1,
+    }),
+    ApiResponse({
+      status: 204,
+      description: 'Produto atualizado com sucesso (sem conteúdo na resposta)',
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Produto não encontrado',
+    }),
+    ApiResponse({
+      status: 400,
+      description: 'Requisição inválida',
+    }),
+  );
+}
