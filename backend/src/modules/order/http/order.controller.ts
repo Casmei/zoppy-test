@@ -1,8 +1,20 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderService } from '../order.service';
-import { CreateOrderDocumentation } from './documentation.decorator';
+import {
+  AllOrdersDocumentation,
+  CreateOrderDocumentation,
+} from './documentation.decorator';
+import { DefaultPaginationQuery } from 'src/modules/common/default-pagination.query';
+import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 
 @ApiTags('Pedidos')
 @Controller('orders')
@@ -14,5 +26,14 @@ export class OrderController {
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() data: CreateOrderDto) {
     return this.orderService.create(data);
+  }
+
+  @Get()
+  @AllOrdersDocumentation()
+  @HttpCode(HttpStatus.CREATED)
+  async all(
+    @DefaultPaginationQuery({ hasSearch: false }) query: PaginationQueryDto,
+  ) {
+    return this.orderService.all(query);
   }
 }

@@ -4,6 +4,7 @@ import { OrderEntity } from '../order.entity';
 import { Repository } from 'typeorm';
 import { OrderItemEntity } from '../order-item.entity';
 import { CreateOrderDto } from '../http/dto/create-order.dto';
+import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 
 export class OrderRepository implements IOrderRepository {
   constructor(
@@ -32,5 +33,24 @@ export class OrderRepository implements IOrderRepository {
     await this.orderRepository.save(order);
 
     return order;
+  }
+
+  async all({ page, limit }: PaginationQueryDto) {
+    const [data, total] = await this.orderRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: {
+        items: {
+          product: true,
+        },
+      },
+    });
+
+    return {
+      data,
+      total,
+      page: Number(page),
+      limit: Number(limit),
+    };
   }
 }

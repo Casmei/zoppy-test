@@ -1,6 +1,8 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { DefaultPaginationDoc } from 'src/modules/common/default-pagination-doc.decorator';
+import { PaginatedOrderResponse } from './reponse/all-orders.response';
 
 export function CreateOrderDocumentation() {
   return applyDecorators(
@@ -17,6 +19,22 @@ export function CreateOrderDocumentation() {
     ApiResponse({
       status: 400,
       description: 'Requisição inválida (falha na validação)',
+    }),
+  );
+}
+
+export function AllOrdersDocumentation() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Lista todos os pedidos com paginação' }),
+    DefaultPaginationDoc(),
+    ApiResponse({
+      status: 200,
+      description: 'Lista de pedidos',
+      type: PaginatedOrderResponse,
+    }),
+    ApiResponse({
+      status: 400,
+      description: 'Requisição inválida',
     }),
   );
 }

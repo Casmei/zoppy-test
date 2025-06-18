@@ -4,6 +4,7 @@ import { IOrderRepository } from './repository/IOrderRepository';
 import { IProductRepository } from '../product/repository/IProduct.repository';
 import { OrderItemEntity } from './order-item.entity';
 import { NotFoundException } from '@nestjs/common';
+import { PaginationQueryDto } from '../common/pagination-query.dto';
 
 export class OrderService {
   constructor(
@@ -38,5 +39,9 @@ export class OrderService {
     this.orderRepository.createOrderItems(order.id, orderItems);
 
     this.cacheManager.clear();
+  }
+
+  async all({ page, limit }: PaginationQueryDto) {
+    return this.orderRepository.all({ page, limit });
   }
 }

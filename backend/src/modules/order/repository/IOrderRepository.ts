@@ -1,3 +1,4 @@
+import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
 import { CreateOrderDto } from '../http/dto/create-order.dto';
 import { OrderItemEntity } from '../order-item.entity';
 import { OrderEntity } from '../order.entity';
@@ -10,4 +11,10 @@ export interface IOrderRepository {
     orderId: number,
     data: Partial<OrderItemEntity>[],
   ): Promise<void>;
+  all(params: PaginationQueryDto): Promise<{
+    data: OrderEntity[];
+    total: number;
+    page: number;
+    limit: number;
+  }>;
 }
