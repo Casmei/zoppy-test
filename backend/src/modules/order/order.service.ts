@@ -5,6 +5,7 @@ import { IProductRepository } from '../product/repository/IProduct.repository';
 import { OrderItemEntity } from './order-item.entity';
 import { NotFoundException } from '@nestjs/common';
 import { PaginationQueryDto } from '../common/pagination-query.dto';
+import { OrderEntity } from './order.entity';
 
 export class OrderService {
   constructor(
@@ -43,12 +44,23 @@ export class OrderService {
       customerName,
       total: totalOrderValue,
     });
-    this.orderRepository.createOrderItems(order.id, orderItems);
 
+    this.orderRepository.createOrderItems(order.id, orderItems);
     this.cacheManager.clear();
   }
 
   async all({ page, limit }: PaginationQueryDto) {
     return this.orderRepository.all({ page, limit });
+  }
+
+  async cancel({ id }: Pick<OrderEntity, 'id'>) {
+    const order = await this.orderRepository.findOneById({ id });
+
+    if (!order) {
+      throw new NotFoundException('Pedido não encontrado');
+    }
+
+    this.cacheManager.clear();
+    this.orderRepository.cancel(id);
   }
 }

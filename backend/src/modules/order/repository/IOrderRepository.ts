@@ -16,4 +16,6 @@ export interface IOrderRepository {
     page: number;
     limit: number;
   }>;
+  cancel(id: number): Promise<void>;
+  findOneById(id: Pick<OrderEntity, 'id'>): Promise<OrderEntity | null>;
 }

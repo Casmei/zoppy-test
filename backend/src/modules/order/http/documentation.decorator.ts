@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { DefaultPaginationDoc } from 'src/modules/common/default-pagination-doc.decorator';
 import { PaginatedOrderResponse } from './reponse/all-orders.response';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -31,6 +31,29 @@ export function AllOrdersDocumentation() {
       status: 200,
       description: 'Lista de pedidos',
       type: PaginatedOrderResponse,
+    }),
+    ApiResponse({
+      status: 400,
+      description: 'Requisição inválida',
+    }),
+  );
+}
+
+export function CancelOrderDocumentation() {
+  return applyDecorators(
+    ApiOperation({ summary: 'Cancela um pedido' }),
+    ApiParam({
+      name: 'id',
+      description: 'ID do pedido que será cancelado',
+      example: 1,
+    }),
+    ApiResponse({
+      status: 204,
+      description: 'Pedido cancelado com sucesso (sem corpo de resposta)',
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Pedido não encontrado',
     }),
     ApiResponse({
       status: 400,

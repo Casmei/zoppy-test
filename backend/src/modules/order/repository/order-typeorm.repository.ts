@@ -1,6 +1,6 @@
 import { IOrderRepository } from './IOrderRepository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderEntity } from '../order.entity';
+import { OrderEntity, OrderStatus } from '../order.entity';
 import { Repository } from 'typeorm';
 import { OrderItemEntity } from '../order-item.entity';
 import { PaginationQueryDto } from 'src/modules/common/pagination-query.dto';
@@ -12,6 +12,19 @@ export class OrderRepository implements IOrderRepository {
     @InjectRepository(OrderItemEntity)
     private orderItemRepository: Repository<OrderItemEntity>,
   ) {}
+
+  async cancel(id: number): Promise<void> {
+    this.orderRepository.update(
+      { id },
+      { canceledAt: new Date(), status: OrderStatus.CANCELED },
+    );
+  }
+
+  async findOneById({
+    id,
+  }: Pick<OrderEntity, 'id'>): Promise<OrderEntity | null> {
+    return this.orderRepository.findOneBy({ id });
+  }
 
   async createOrderItems(orderId: number, data: Partial<OrderItemEntity>[]) {
     const orderItems = data.map((item) => {
