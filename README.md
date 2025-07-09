@@ -1,5 +1,7 @@
 # Backend - Desafio Técnico | Zoppy
 
+| Pequeno desabafo: Não passei na vaga por não morar em Belo Horizonte.
+
 Este é um projeto backend desenvolvido com [NestJS](https://nestjs.com/) para a Zoppy. O objetivo é demonstrar domínio em arquitetura escalável, boas práticas e tecnologias modernas.
 
 ## 📁 Estrutura
